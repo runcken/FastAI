@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from fastapi import APIRouter, FastAPI
+from fastapi import APIRouter, FastAPI, Request
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
@@ -15,7 +15,19 @@ async def hello():
     return {"message": "Привет из бекенда!"}
 
 
-app = FastAPI()
+@api_router.get("/users/me")
+async def users_me(request: Request):
+    return {
+        "email": "example@example.com",
+        "isActive": True,
+        "profileId": "1",
+        "registeredAt": "2025-06-15T18:29:56+00:00",
+        "updatedAt": "2025-06-15T18:29:56+00:00",
+        "username": "user123",
+    }
+
+
+app = FastAPI(title="FastAI", version="0.1.1")
 app.include_router(api_router)
 
 app.mount(
